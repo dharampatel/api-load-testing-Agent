@@ -1,0 +1,140 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Swagger Endpoint Extractor (MVP)",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/sample": {
+      "get": {
+        "summary": "Sample",
+        "operationId": "sample_sample_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/upload-swagger": {
+      "post": {
+        "summary": "Upload Swagger",
+        "description": "Accepts Swagger file path and load test configuration as JSON.\nExample request:\n{\n    \"swagger_path\": \"/Users/dharmendrapr/Desktop/AUTOGEN/ApiLoadTesting/demo.json\",\n    \"users\": 10,\n    \"spawn_rate\": 2,\n    \"run_time\": \"10s\"\n}",
+        "operationId": "upload_swagger_upload_swagger_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SwaggerInput"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "SwaggerInput": {
+        "properties": {
+          "swagger_path": {
+            "type": "string",
+            "title": "Swagger Path"
+          },
+          "users": {
+            "type": "integer",
+            "title": "Users",
+            "default": 10
+          },
+          "spawn_rate": {
+            "type": "integer",
+            "title": "Spawn Rate",
+            "default": 2
+          },
+          "run_time": {
+            "type": "string",
+            "title": "Run Time",
+            "default": "10s"
+          }
+        },
+        "type": "object",
+        "required": [
+          "swagger_path"
+        ],
+        "title": "SwaggerInput"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}
